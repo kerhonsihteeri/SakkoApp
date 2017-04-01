@@ -19,4 +19,4 @@ class Sakko (db.Model):
 	sakko_title = db.Column(db.String(45))
 	sakko_description = db.Column(db.String(5000))
 	sakko_user_id = db.Column(db.Integer)
-	sakko_date = Column(DateTime, default=datetime.datetime.utcnow)
+	sakko_date = db.Column(DateTime, default=datetime.datetime.utcnow)
