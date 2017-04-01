@@ -1,6 +1,6 @@
 from flask import Flask, render_template, json, request, redirect, session
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.heroku import Heroku
+from flask_sqlalchemy import SQLAlchemy
+from flask_heroku import Heroku
 from werkzeug import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
