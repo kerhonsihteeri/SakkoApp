@@ -1,21 +1,30 @@
 from flask import Flask, render_template, json, request, redirect, session
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.heroku import Heroku
 from werkzeug import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-heroku = Heroku(app)
 db = SQLAlchemy(app)
 
 
-
+app = Flask(__name__)
 
 app.secret_key = 'why would I tell you my secret key, you asshole?'
 
 import os
+import psycopg2
+import urlparse
 
-from models import User
+urlparse.uses_netloc.append("postgres")
+url = urlparse.urlparse(os.environ["DATABASE_URL"])
+
+conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+)
 
 @app.route("/")
 def main():
@@ -29,20 +38,13 @@ def main():
 def showSignUp():
 	return render_template('signup.html')
 	
-@app.route('/signUp' ,methods=['POST'])
+@app.route('/signUp' ,methods=['POST', 'GET'])
 def signUp():
-	if request.method =='POST':
-		user_name = request.form['inputName']
-		user_email = request.form['inputEmail']
-		user_password = request.form['inputPassword']
-		user_username = None
-		if not db.session.query(User).filter(User.user_email == user_email).count():
-			reg = User(user_email)
-			db.session.add(reg)
-			db.session.commit()
-		return render_template('success.html')
-	return render_template ('index.html')
-		
+	try:
+		_name = request.form['inputName']
+		_email = request.form['inputEmail']
+		_password = request.form['inputPassword']
+
 @app.route('/showSignIn')
 def showSignIn():
 	return render_template ('signin.html')
