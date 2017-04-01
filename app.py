@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, json, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug import generate_password_hash, check_password_hash
@@ -12,7 +14,7 @@ db = SQLAlchemy(app)
 
 app.secret_key = 'why would I tell you my secret key, you asshole?'
 
-import os
+
 
 from models import User
 
