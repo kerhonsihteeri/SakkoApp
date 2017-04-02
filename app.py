@@ -9,8 +9,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-session = create_session()
-
 
 app.secret_key = 'why would I tell you my secret key, you asshole?'
 
