@@ -7,8 +7,9 @@ from werkzeug import generate_password_hash, check_password_hash
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-
+session = create_session()
 
 
 app.secret_key = 'why would I tell you my secret key, you asshole?'
@@ -32,10 +33,10 @@ def showSignUp():
 @app.route('/signUp' ,methods=['POST'])
 def signUp():
 	if request.method =='POST':
-		user_name = request.form['inputName']
-		user_email = request.form['inputEmail']
-		user_password = request.form['inputPassword']
-		user_username = None
+		User.user_name = request.form['inputName']
+		User.user_email = request.form['inputEmail']
+		User.user_password = request.form['inputPassword']
+		User.user_username = None
 		if not db.session.query(User).filter(User.user_email == user_email).count():
 			reg = User(user_email)
 			db.session.add(reg)
