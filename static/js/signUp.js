@@ -10,7 +10,7 @@ $(function(){
 				console.log("toimiiko?", response);
 			},
 			error: function(error){
-				console.log("virheatsignup.js", error);
+				console.log("virheatsignup", error);
 			}
 		});
 	});
