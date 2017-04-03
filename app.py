@@ -14,6 +14,9 @@ app.config['MYSQL_DATABASE_DB'] = 'cygpdp7hgoack6lg'
 app.config['MYSQL_DATABASE_HOST'] = 'o3iyl77734b9n3tg.cbetxkdyhwsb.us-east-1.rds.amazonaws.com'
 mysql.init_app(app)
 
+#Default setting
+pageLimit = 50
+
 @app.route("/")
 def main():
 	if __name__ == "__main__":
@@ -134,17 +137,29 @@ def addWish():
         cursor.close()
         conn.close()
 		
-@app.route('/getWish')
+@app.route('/getWish',methods=['POST'])
 def getWish():
 	try:
 		if session.get('user'):
 			_user = session.get('user')
+			_limit = pageLimit
+			_offset = request.form ['offset']
+			#print _offset
+			_total_records = 0
 
 			con = mysql.connect()
 			cursor = con.cursor()
-			cursor.callproc('sp_GetSakkoByUser',(_user,))
+			cursor.callproc('sp_GetSakkoByUser',(_user,_limit,_offset,_total_records))
 			wishes = cursor.fetchall()
- 
+			
+			cursor.close()
+			
+			cursor = con.cursor()
+			cursor.execute('SELECT @_sp_GetSakkoByUser_3');
+			
+			outParam = cursor.fetchall()
+
+			response = []
 			wishes_dict = []
 			for wish in wishes:
 				wish_dict = {
@@ -154,8 +169,11 @@ def getWish():
 					'Maara': wish[2],
 					'Date': wish[5]}
 				wishes_dict.append(wish_dict)
-
-			return json.dumps(wishes_dict)
+				
+			response.append(wishes_dict)
+			response.append({'total':outParam[0][0]})
+			
+			return json.dumps(response)
 		else:
 			return render_template('error.html', error = 'Unauthorized Access')
 	except Exception as e:
