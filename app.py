@@ -265,28 +265,7 @@ def deleteWish():
         conn.close()
 		
 
-#@app.route('/getUserByUser',methods=['POST'])
-#def getUserByUser():
-#    try:
- #       if session.get('user'):
- #
-  #          _id = request.form['id']
-   #         _user = session.get('user')
- #
-  #          conn = mysql.connect()
-   #         cursor = conn.cursor()
-    #        cursor.callproc('sp_GetUserByUser',(_id,_user))
-     #       result = cursor.fetchall()
- #
-  #          user = []
-   #         user.append({'Id':result[0][0],'Username':result[0][2],'Name':result[0][1],'Email':result[0][3]})
- #
-  #          return json.dumps(user)
-   #     else:
-    #        return render_template('error.html', error = 'Tietojen löytäminen epäonnistui')
-    #except Exception as e:
-     #   return render_template('error.html',error = str(e))
-		
+	
 
 
 @app.route('/getUser')
