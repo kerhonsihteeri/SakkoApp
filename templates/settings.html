@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>MJTJP SakkoApp</title>
+ 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"></script>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/signup.css" rel="stylesheet">
+	<script src="../static/js/jquery-1.11.2.js"></script>	
+	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	
+	<script>
+<!--			$(function() {
+		
+<!--			GetUser();
+<!--			$('#btnUpdate').click(function() {
+<!--				$.ajax({
+<!--					url: '/updateUser',
+<!--					data: {
+<!--						username: $('#editUsername').val(),
+<!--						name: $('#editName').val(),
+<!--						email: $('#editEmail').val(),
+<!--						id: localStorage.getItem('editId')},
+<!--					type: 'POST',
+<!--					success: function(res) {
+<!--							GetUser();
+<!--					},
+<!--					error: function(error) {
+<!--						console.log(error);
+<!--					}
+<!--				});
+<!--			});
+<!--		});	-->
+		
+
+ 
+ 
+    $(function() {
+        $.ajax({
+            url: '/getUser',
+            type: 'GET',
+            success: function(res) {
+                console.log(res);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+
+<!--		function Edit(elm){
+<!--			localStorage.setItem('editId',$(elm).attr('data-id'));
+<!--			$.ajax({
+<!--				url : '/getUser',
+<!--				data : {id:$(elm).attr('data-id')},
+<!--				type : 'POST',
+<!--				success: function(res){
+<!--					console.log(res);
+<!--					var data = JSON.parse(res);
+<!--					$('#editUsername').val(data[0]['Username']);
+<!--					$('#editName').val(data[0]['Name']);
+	<!--				$('#editEmail').val(data[0]['Email']);
+			
+				
+	<!--			},
+<!--				error: function(error){
+<!--					console.log(error);
+<!--				}
+<!--			});
+<!--		}
+	</script>
+ 
+</head>
+ 
+<body>
+ 
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+					<li role="presentation"><a href="/userHome">Sakkofeedi</a>
+                    </li>
+                    <li role="presentation"><a href="/showAddWish">Lisää sakko</a>
+					</li>
+					<li role="presentation" class="active"><a href="/settings">Asetukset</a>
+                    </li>
+					<li role="presentation"><a href="/logout">Poistu</a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">SakkoApp</h3>
+        </div>
+ 
+		<section>
+            <form class="form-horizontal" method="post" >
+                <fieldset>
+ 
+                    <!-- Form Name -->
+                    <legend>Muokkaa käyttäjätietoja</legend>
+ 
+					  <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="txtTitle">Käyttäjänimi:</label>
+                        <div class="col-md-4">
+                            <input id="editUsername" type="text" class="form-control" readonly>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="txtTitle">Nimi:</label>
+                        <div class="col-md-4">
+                            <input id="editName" name="editName" type="text" class="form-control">
+                        </div>
+                    </div>
+ 
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="txtTitle">Sähköpostiosoite:</label>
+                        <div class="col-md-4">
+                            <input id="editEmail" name="editEmail" type="text" class="form-control">
+                        </div>
+                    </div>
+ 
+					<!-- Kuukausitulot -->
+<!--					<div class="form-group">
+						<label class="col-md-4 control-label" for="txtPost">Keskimääräiset kuukausitulot</label>
+                        <div class="col-md-4">
+                            <input class="form-control" type="number" id="editTulot" name="editTulot" min="0" step="1"/>
+                        </div>
+                    </div>
+-->
+                    <!-- Button -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="singlebutton"></label>
+                        <div class="col-md-4">
+                            <input id="singlebutton" name="singlebutton" class="btn btn-primary" type="butoon" value="Tallenna tiedot" />
+                        </div>
+                    </div>
+ 
+                </fieldset>
+            </form>
+ 
+        </section>
+ 
+ 
+ 
+        <footer class="footer">
+            <p>&copy; MJTJP</p>
+        </footer>
+ 
+    </div>
+</body>
+ 
+</html>

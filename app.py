@@ -22,12 +22,39 @@ def main():
 	if __name__ == "__main__":
 		app.run()
 	return render_template('index.html')
-	
-
 
 @app.route('/showSignUp')
 def showSignUp():
 	return render_template('signup.html')
+	
+@app.route('/showSignIn')
+def showSignIn():
+	return render_template ('signin.html')
+	
+@app.route('/userHome')
+def userHome():
+	if session.get('user'):
+		return render_template('userHome.html')
+	else:	
+		return render_template('error.html', error='Unauthorized Access')
+		
+@app.route('/showAddWish')
+def showAddWish():
+    return render_template('addSakko.html')
+	
+@app.route('/settings')
+def settings():
+	return render_template('settings.html')
+
+@app.route('/logout')
+def logout():
+	session.pop('user',None)
+	return redirect('/')
+
+
+@app.route('/video')
+def video():
+	return render_template('userindex.html')
 	
 @app.route('/signUp',methods=['POST','GET'])
 def signUp():
@@ -61,9 +88,7 @@ def signUp():
 		cursor.close()
 		conn.close()
 
-@app.route('/showSignIn')
-def showSignIn():
-	return render_template ('signin.html')
+
 	
 @app.route('/validateLogin',methods=['POST'])
 def validateLogin():
@@ -93,21 +118,7 @@ def validateLogin():
 		cursor.close()
 		conn.close()
 
-@app.route('/userHome')
-def userHome():
-	if session.get('user'):
-		return render_template('userHome.html')
-	else:	
-		return render_template('error.html', error='Unauthorized Access')		
 
-@app.route('/logout')
-def logout():
-	session.pop('user',None)
-	return redirect('/')
-	
-@app.route('/showAddWish')
-def showAddWish():
-    return render_template('addSakko.html')
 	
 @app.route('/addWish',methods=['POST'])
 def addWish():
@@ -253,3 +264,78 @@ def deleteWish():
         cursor.close()
         conn.close()
 		
+
+#@app.route('/getUserByUser',methods=['POST'])
+#def getUserByUser():
+#    try:
+ #       if session.get('user'):
+ #
+  #          _id = request.form['id']
+   #         _user = session.get('user')
+ #
+  #          conn = mysql.connect()
+   #         cursor = conn.cursor()
+    #        cursor.callproc('sp_GetUserByUser',(_id,_user))
+     #       result = cursor.fetchall()
+ #
+  #          user = []
+   #         user.append({'Id':result[0][0],'Username':result[0][2],'Name':result[0][1],'Email':result[0][3]})
+ #
+  #          return json.dumps(user)
+   #     else:
+    #        return render_template('error.html', error = 'Tietojen löytäminen epäonnistui')
+    #except Exception as e:
+     #   return render_template('error.html',error = str(e))
+		
+
+
+@app.route('/getUser')
+def getUser():
+	try:
+		if session.get('user'):
+			_user = session.get('user')
+
+			con = mysql.connect()
+			cursor = con.cursor()
+			cursor.callproc('sp_GetUserByUser',(_user,))
+			user = cursor.fetchall()
+            
+			user_dict = {
+				'Id': user[0],
+				'Name': user[1],
+				'Username': user[2],
+				'Email': user[3]}
+ 
+			return json.dumps(user_dict)
+		else:
+			return render_template('error.html', error = 'Unauthorized Access')
+	except Exception as e:
+		return render_template('error.html', error = str(e))
+
+		
+@app.route('/updateUser', methods=['POST'])
+def updateUser():
+	try:
+		if session.get('user'):
+			_user = session.get('user')
+			_username = request.form['username']
+			_name = request.form['name']
+			_email = request.form['email']
+			_wish_id = request.form['id']
+
+
+			conn = mysql.connect()
+			cursor = conn.cursor()
+			cursor.callproc('sp_updateUser',(_name,_username,_email,_wish_id,_user))
+			data = cursor.fetchall()
+
+			if len(data) is 0:
+				conn.commit()
+				return json.dumps({'status':'OK'})
+			else:
+				return json.dumps({'status':'ERROR'})
+	except Exception as e:
+		return json.dumps({'status':'Unauthorized access'})
+	finally:
+		cursor.close()
+		conn.close()
