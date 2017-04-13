@@ -386,19 +386,19 @@ def youtube_search():
 		maxResults=25
 	).execute()
 
-	videos = []
-	channels = []
-	playlists = []
+	videos = {}
+	channels = {}
+	playlists = {}
 
 	# Add each result to the appropriate list, and then display the lists of
 	# matching videos, channels, and playlists.
 	for search_result in search_response.get("items", []):
 		if search_result["id"]["kind"] == "youtube#video":
-			videos.append("%s (%s)" % (search_result["snippet"]["title"],search_result["id"]["videoId"]))
+			videos[search_result["snippet"]["title"]]="http://youtube.com/watch?v={0:.50s}".format(search_result["id"]["videoId"])
 		elif search_result["id"]["kind"] == "youtube#channel":
-			channels.append("%s (%s)" % (search_result["snippet"]["title"],search_result["id"]["channelId"]))
+			channels[search_result["snippet"]["title"]]="http://youtube.com/channel/{0:.50s}".format(search_result["id"]["channelId"])
 		elif search_result["id"]["kind"] == "youtube#playlist":
-			playlists.append("%s (%s)" % (search_result["snippet"]["title"],search_result["id"]["playlistId"]))
+			playlists[search_result["snippet"]["title"]]="http://youtube.com/playlist?list={0:.50s}".format(search_result["id"]["playlistId"])
 
 	print ("Videos:\n", "\n".join(videos), "\n")
 	print ("Channels:\n", "\n".join(channels), "\n")

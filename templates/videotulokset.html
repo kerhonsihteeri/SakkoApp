@@ -32,17 +32,17 @@
 			
 			<h2> Videot </h2>
 			{% for video in videos %}
-			<li> {{video}} </li>
+			<li><a href="{{videos[video]}}" target="_blank"> {{video}} </a> </li>
 			{% endfor %}
             
 			<h2> Kanavat </h2>			
 			{% for channel in channels %}
-			<li> {{channel}} </li>
+			<li><a href="{{channels[channel]}}" target="_blank"> {{channel}} </a></li>
 			{% endfor %}
 			
 			<h2> Soittolistat </h2>			
 			{% for playlist in plalists %}
-			<li> {{playlist}} </li>
+			<li><a href="{{playlists[playlist]}}" target="_blank"> {{playlist}} </a></li>
 			{% endfor %}
 			
         </div>
