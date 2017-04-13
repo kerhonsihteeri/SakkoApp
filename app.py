@@ -7,6 +7,7 @@ app = Flask(__name__)
 mysql = MySQL()
 app.secret_key = 'why would I tell you my secret key, you asshole?'
 
+
 # MySQL configurations
 app.config['MYSQL_DATABASE_USER'] = 'imsyhm5uqwvmcb1a'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'z3vnrusg30ry8ivz'
@@ -16,6 +17,19 @@ mysql.init_app(app)
 
 #Default setting
 pageLimit = 50
+
+from apiclient.discovery import build
+from apiclient.errors import HttpError
+from oauth2client.tools import argparser
+
+
+# Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
+# tab of
+#   https://cloud.google.com/console
+# Please ensure that you have enabled the YouTube Data API for your project.
+DEVELOPER_KEY = "AIzaSyCGBwf_FniRboagzyQ9dYhJ78ytyEm3tm8"
+YOUTUBE_API_SERVICE_NAME = "youtube"
+YOUTUBE_API_VERSION = "v3"
 
 @app.route("/")
 def main():
@@ -54,7 +68,7 @@ def logout():
 
 @app.route('/video')
 def video():
-	return render_template('userindex.html')
+	return render_template('apisivu.html')
 	
 @app.route('/signUp',methods=['POST','GET'])
 def signUp():
@@ -268,7 +282,7 @@ def deleteWish():
 	
 
 
-@app.route('/getUser')
+@app.route('/getUser',)
 def getUser():
 	try:
 		if session.get('user'):
@@ -277,22 +291,57 @@ def getUser():
 			con = mysql.connect()
 			cursor = con.cursor()
 			cursor.callproc('sp_GetUserByUser',(_user,))
-			user = cursor.fetchall()
+			users = cursor.fetchall()
             
-			user_dict = {
-				'Id': user[0],
-				'Name': user[1],
-				'Username': user[2],
-				'Email': user[3]}
- 
-			return json.dumps(user_dict)
+			users_dict = []
+			for user in users:
+				user_dict={
+					'Id': user[0],
+					'Name': user[1],
+					'Username': user[2],
+					'Email': user[3]}
+				users_dict.append(user_dict)
+					
+			return json.dumps(users_dict)
+		else:
+			return render_template('error.html', error = 'Unauthorized AccessAA')
+	except Exception as e:
+		return json.dumps(str(e)) #render_template('error.html', error = str(e))
+
+@app.route('/getUserById',methods=['POST'])
+def getUserById():
+	try:
+		if session.get('user'): 
+			_user = session.get('user')
+
+			conn = mysql.connect()
+			cursor = conn.cursor()
+			cursor.callproc('sp_GetUserById',(_user))
+			users = cursor.fetchall()
+            
+			users_dict = []
+			for user in users:
+				user_dict={
+					'Id': user[0],
+					'Name': user[1],
+					'Username': user[2],
+					'Email': user[3]}
+				users_dict.append(user_dict)
+					
+			return json.dumps(users_dict)
+#            result = cursor.fetchall()
+# 
+#            user = []
+#            user.append({'Id':result[0][0],'Name':result[0][1],'Username':result[0][2],'Email':result[0][3]})
+# 
+#            return json.dumps(user)"""
 		else:
 			return render_template('error.html', error = 'Unauthorized Access')
 	except Exception as e:
-		return render_template('error.html', error = str(e))
+		return render_template('error.html',error = str(e))
 
 		
-@app.route('/updateUser', methods=['POST'])
+"""@app.route('/updateUser', methods=['POST'])
 def updateUser():
 	try:
 		if session.get('user'):
@@ -318,3 +367,49 @@ def updateUser():
 	finally:
 		cursor.close()
 		conn.close()
+		"""
+		
+#!/usr/bin/python
+
+
+
+@app.route('/youtube_search', methods=['POST'])
+def youtube_search():
+	youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+	developerKey=DEVELOPER_KEY)
+
+	# Call the search.list method to retrieve results matching the specified
+	# query term.
+	search_response = youtube.search().list(
+		q=request.form['tubehaku'],
+		part="id,snippet",
+		maxResults=25
+	).execute()
+
+	videos = []
+	channels = []
+	playlists = []
+
+	# Add each result to the appropriate list, and then display the lists of
+	# matching videos, channels, and playlists.
+	for search_result in search_response.get("items", []):
+		if search_result["id"]["kind"] == "youtube#video":
+			videos.append("%s (%s)" % (search_result["snippet"]["title"],search_result["id"]["videoId"]))
+		elif search_result["id"]["kind"] == "youtube#channel":
+			channels.append("%s (%s)" % (search_result["snippet"]["title"],search_result["id"]["channelId"]))
+		elif search_result["id"]["kind"] == "youtube#playlist":
+			playlists.append("%s (%s)" % (search_result["snippet"]["title"],search_result["id"]["playlistId"]))
+
+	print ("Videos:\n", "\n".join(videos), "\n")
+	print ("Channels:\n", "\n".join(channels), "\n")
+	print ("Playlists:\n", "\n".join(playlists), "\n")
+
+
+
+	return render_template('/videotulokset.html', videos=videos, playlists=playlists, channels=channels)	
+	
+	try:
+		youtube_search(args)
+	except HttpError as e:
+		print ("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
+	

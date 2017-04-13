@@ -2,7 +2,7 @@
 <html lang="en">
  
 <head>
-    <title>MJTJP SakkoAppApp</title>
+    <title>MJTJP SakkoApp</title>
  
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"></script>
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
@@ -55,6 +55,8 @@
 					
 					$('#ulist').empty();
 					$('#listTemplate').tmpl(wishObj[0]).appendTo('#ulist');
+					
+					
 					var total = wishObj[1]['total'];
 					var pageCount = total/itemsPerPage;
 					var pageRem = total%itemsPerPage;
@@ -215,11 +217,8 @@
         </div>
 
 
-	<!--<div class="jumbotron"> -->
-			<nav>
-				<ul class="pagination">
-				</ul>
-			</nav>
+	
+			
 			<script id="listTemplate" type="text/x-jQuery-tmpl">
 				<li class="list-group-item">
 					<div class="checkbox">
@@ -228,7 +227,7 @@
 							&nbsp;
 							${Title}
 						</h4>
-						<p id="lista" class="collapse list-group-item-text">
+						<p id="${lista}" class="collapse in list-group-item-text">
 							${Description}
 						</p>
 					
@@ -240,6 +239,10 @@
 				</li>
 			</script>
 
+			<nav>
+				<ul class="pagination">
+				</ul>
+			</nav>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="panel-body">
@@ -252,7 +255,7 @@
 				<ul class="pagination">
 				</ul>
 			</nav>
-	<!--</div>-->
+	
 	</div>
  
 	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">

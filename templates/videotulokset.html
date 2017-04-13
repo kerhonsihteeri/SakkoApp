@@ -20,13 +20,7 @@
                 <ul class="nav nav-pills pull-right">
 					<li role="presentation" class="active"><a href="/video">Video</a>
                     </li>
-					<li role="presentation"><a href="/userHome">Sakkofeedi</a>
-                    </li>
-                    <li role="presentation"><a href="/showAddWish">Lisää sakko</a>
-					</li>
-					<li role="presentation"><a href="/settings">Asetukset</a>
-                    </li>
-					<li role="presentation"><a href="/logout">Poistu</a>
+					<li role="presentation" ><a href="/">Koti</a></li>
                     </li>
                 </ul>
             </nav>
@@ -34,13 +28,23 @@
         </div>
  
         <div class="jumbotron">
-            <h1>Tämä on api sivu</h1>
-			<form class="form-signin" action="/youtube_search" method="post">
-			<label for="inputhaku" class="sr-only">Hae Youtubesta</label>
-			<input type="user" name="q" id="q" class="form-control" placeholder="Hakusana" required autofocus>
-			<button id="btnq" class="btn btn-lg btn-primary btn-block" type="submit">Hae</button>
+            <h1>Hakutulokset</h1>
 			
+			<h2> Videot </h2>
+			{% for video in videos %}
+			<li> {{video}} </li>
+			{% endfor %}
             
+			<h2> Kanavat </h2>			
+			{% for channel in channels %}
+			<li> {{channel}} </li>
+			{% endfor %}
+			
+			<h2> Soittolistat </h2>			
+			{% for playlist in plalists %}
+			<li> {{playlist}} </li>
+			{% endfor %}
+			
         </div>
  
         

@@ -18,13 +18,8 @@
         <div class="header">
             <nav>
                 <ul class="nav nav-pills pull-right">
-					<li role="presentation"><a href="/video">Video</a>
-                    </li>
-                    <li role="presentation" class="active"><a href="#">Koti</a>
-                    </li>
-                    <li role="presentation"><a href="/showSignIn">Kirjaudu</a>
-                    </li>
-                    <li role="presentation"><a href="/showSignUp">Rekisteröidy</a>
+					<li role="presentation" class="active"><a href="/video">Video</a></li>
+		            <li role="presentation" ><a href="/">Koti</a></li>
                     </li>
                 </ul>
             </nav>
@@ -32,13 +27,17 @@
         </div>
  
         <div class="jumbotron">
-            <h1>Tervetuloa MJTJP:n SakkoAppiin! </h1>
-            <p class="lead"></p>
-            <p><a class="btn btn-lg btn-success" href="showSignIn" role="button">Kirjaudu sisään</a>
-            </p>
+            <h1>Youtube haku</h1>
+			<form class="form-signin" action="/youtube_search" method="post">
+			<label for="inputhaku" class="sr-only">Hae Youtubesta</label>
+			<input  name="tubehaku" id="tubehaku" class="form-control" placeholder="Hakusana" required autofocus>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Hae</button>
+			
+            
         </div>
  
-   
+        
+ 
         <footer class="footer">
             <p>&copy; MJTJP</p>
         </footer>
