@@ -4,9 +4,10 @@
 <head>
     <title>MJTJP SakkoApp</title>
  
+	<meta name="viewport" content="width=device-width, initial-scale=1">
  
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.3.6/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     <link href="../static/css/signup.css" rel="stylesheet">
 	<script src="../static/js/jquery-1.11.2.js"></script>	
@@ -64,7 +65,7 @@
 								<option>Stagen</option>
 								<option>s t a k a</option>
 								<option>viidakonVIP</option>
-								<option data-toggle="collapse" data-parent"'#accordion' href="#muusaaja">Joku muu?</option>
+								<option data-toggle="collapse" data-parent='#accordion' data-target="#muusaaja">Joku muu?</option>
 							</select>
 						</div>
 					</div>
@@ -100,16 +101,15 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="singlebutton"></label>
                         <div class="col-md-4">
-                            <input id="singlebutton" name="singlebutton" class="btn btn-primary" type="submit" value="Julkaise" />
+                            <input id="singlebutton" name="singlebutton" class="btn btn-primary" type="submit" value="Lisää sakko" />
                         </div>
                     </div>
  
  					<!-- Varoitus -->
 					<div class = "form-group">
-						<label class="col-md-4 control-label"></label>
+						<label class="col-md-4 control-label active"><input type="checkbox" value="" checked disabled></label>
 							<div class="col-md-4">
-					Ymmärrän, että sakon lisääminen aiheuttaa mielipahaa. Lisäämällä sakon otan vastuun
-					kaikista tulevista paineista sakkoon liittyen.
+					Ymmärrän, että sakon lisääminen aiheuttaa mielipahaa. Lisäämällä sakon ymmärrän, että asia voi mennä painiksi.
 							</div>
 						</div>
 					</div>
