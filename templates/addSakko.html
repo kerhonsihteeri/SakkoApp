@@ -47,13 +47,37 @@
                     <!-- Form Name -->
                     <legend>Lisää sakko</legend>
  
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="txtTitle">Sakon saaja</label>
+					<!-- Text list -->
+					<div class="form-group">
+						<label class="col-md-4 control-label" id="sel1">Sakon saaja</label>
+						<div class="col-md-4 accordion">
+							<select class="col-md-4 form-control" id="sel1" name="inputJäsen">
+								<option>Haizee</option>
+								<option>kalja3000</option>
+								<option>Karlin</option>
+								<option>kerhonsihteeri</option>
+								<option>Marto-97</option>
+								<option>Myölystö</option>
+								<option>Rommila</option>
+								<option>Skali</option>
+								<option>Stagen</option>
+								<option>s t a k a</option>
+								<option>viidakonVIP</option>
+								<option data-toggle="collapse" data-parent"'#accordion' href="#muusaaja">Joku muu?</option>
+							</select>
+						</div>
+					</div>
+
+				   <!-- Text input-->
+                    <div id="muusaaja" data-parent='#accordion' class="form-group panel-collapse collapse">
+                        <label class="col-md-4 control-label" for="txtTitle">Muu saaja</label>
                         <div class="col-md-4">
-                            <input id="txtTitle" name="inputTitle" type="text" placeholder="Saajan nimi" class="form-control input-md">
+                            <input id="txtTitle" name="inputMuu" type="text" placeholder="Muu saaja" class="form-control input-md">
                         </div>
                     </div>
+					
+					<!--hidden field -->
+					<input type="hidden" name="inputTitle" />
  
                     <!-- Textarea -->
                     <div class="form-group">

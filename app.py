@@ -149,31 +149,37 @@ def validateLogin():
 	
 @app.route('/addWish',methods=['POST'])
 def addWish():
-    try:
-        if session.get('user'):
-            _title = request.form['inputTitle']
-            _maara= request.form['inputMaara']
-            _description = request.form['inputDescription']
-            _user = session.get('user')
- 
-            conn = mysql.connect()
-            cursor = conn.cursor()
-            cursor.callproc('sp_addSakko',(_title,_maara,_description,_user))
-            data = cursor.fetchall()
- 
-            if len(data) is 0:
-                conn.commit()
-                return redirect('/userHome')
-            else:
-                return render_template('error.html',error = 'An error occurred!')
- 
-        else:
-            return render_template('error.html',error = 'Unauthorized Access')
-    except Exception as e:
-        return render_template('error.html',error = str(e))
-    finally:
-        cursor.close()
-        conn.close()
+	try:
+		if session.get('user'):
+			
+			if request.form['inputJäsen'] == 'Joku muu?':
+				_title = request.form['inputMuu']
+				print("iffi")
+			else:
+				_title = request.form['inputJäsen']
+				print("jo")
+			_maara= request.form['inputMaara']
+			_description = request.form['inputDescription']
+			_user = session.get('user')
+
+			conn = mysql.connect()
+			cursor = conn.cursor()
+			cursor.callproc('sp_addSakko',(_title,_maara,_description,_user))
+			data = cursor.fetchall()
+
+			if len(data) is 0:
+				conn.commit()
+				return redirect('/userHome')
+			else:
+				return render_template('error.html',error = 'An error occurred!')
+
+		else:
+			return render_template('error.html',error = 'Unauthorized Access')
+	except Exception as e:
+		return render_template('error.html',error = str(e))
+	finally:
+		cursor.close()
+		conn.close()
 		
 @app.route('/getWish',methods=['POST'])
 def getWish():
