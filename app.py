@@ -67,7 +67,10 @@ def logout():
 
 @app.route('/feed')
 def feed():
-	return render_template ('feedSakko.html')
+	if session.get('user'):
+		return render_template ('feedSakko.html')
+	else:
+		return render_template('error.html', error='Unauthorized Access')
 
 @app.route('/video')
 def video():
@@ -122,7 +125,7 @@ def validateLogin():
 		if len(data) > 0:
 			if check_password_hash(str(data[0][4]),_password):
 				session['user'] = data [0][0]
-				return redirect('/feedSakko')
+				return redirect('/feed')
 			else:
 				return render_template('error.html',error = 'Wrong Username or Password.')
 		else:
