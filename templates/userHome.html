@@ -163,7 +163,7 @@
 				data : {id:$(elm).attr('data-id')},
 				type : 'POST',
 				success: function(res){
-					
+					console.log(res);
 					var data = JSON.parse(res);
 					$('#editTitle').val(data[0]['Title']);
 					$('#editMaara').val(data[0]['Maara']);
@@ -201,11 +201,15 @@
         <div class="header">
             <nav>
                 <ul class="nav nav-pills pull-right">
-					<li role="presentation"><a href="/video">Video</a>
-					</li>
-					<li role="presentation" class="active"><a href="/userHome">Sakkofeedi</a>
+					<li role="presentation" class="active" class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="/feed">Sakkofeedi
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/feed">Sakkofeedi</a></li>
+						<li class="active"><a href="/userHome">Omat sakot</a></li>
+					</ul>
                     </li>
-                    <li role="presentation"><a href="/showAddWish">Lisää sakko</a>
+                    <li role="presentation"><a href="/showAddSakko">Lisää sakko</a>
 					</li>
 					<li role="presentation"><a href="/settings">Asetukset</a>
                     </li>
@@ -226,11 +230,10 @@
 							<span class="badge pull-left"> ${Maara} </span>
 							&nbsp;
 							${Title}
-						</h4>
+							</h4>
 						<p id="${lista}" class="collapse in list-group-item-text">
 							${Description}
 						</p>
-					
 					</div>
 					<div class="pull-right action-buttons">
 						<a data-id=${Id} onclick="Edit(this)" style="cursor: pointer;"><span role="button"><span class="glyphicon glyphicon-pencil"</span></span></a>
@@ -239,10 +242,9 @@
 				</li>
 			</script>
 
-			<nav>
-				<ul class="pagination">
-				</ul>
-			</nav>
+
+			<h2> Omat sakot</h2>	
+
 			<div class="row">
 				<div class="col-md-12">
 					<div class="panel-body">

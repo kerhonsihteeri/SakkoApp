@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <title>MJTJP SakkoApp</title>
+ 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"></script>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/signup.css" rel="stylesheet">
+	<script src="../static/js/jquery-1.11.2.js"></script>	
+	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+	<script>
+		$(function() {
+			$.ajax({
+				url: '/getAllWishes',
+				type: 'GET',
+				success: function(response) {
+					var data = JSON.parse(response);
+					$('#ulist').empty();
+					$('#listTemplate').tmpl(data).appendTo('#ulist');
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		})
+	</script>
+
+
+	<style>
+	.trash {
+		color: rgb(209, 91, 71);
+	}
+	.panel-body .checkbox {
+		display: inline-block;
+		margin: 0px;
+	}
+	.list-group {
+		margin-bottom: 0px;
+	}
+	</style>
+ 
+</head>
+ 
+<body>
+ 
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+					<li role="presentation" class="active" class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="/feed">Sakkofeedi
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li class="active"><a href="/feed">Sakkofeedi</a></li>
+						<li><a href="/userHome">Omat sakot</a></li>
+					</ul>
+                    </li>
+                    <li role="presentation"><a href="/showAddSakko">Lisää sakko</a>
+					</li>
+					<li role="presentation"><a href="/settings">Asetukset</a>
+                    </li>
+					<li role="presentation"><a href="/logout">Poistu</a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">SakkoApp</h3>
+        </div>
+
+		<h2> Sakkofeedi </h2>
+
+			
+			<script id="listTemplate" type="text/x-jQuery-tmpl">
+				<li class="list-group-item">
+					<div class="checkbox" id="accordion">
+						<h4 class="list-group-item-heading" data-toggle="collapse" data-parent='#accordion' href="#lista${Id}" style="cursor: pointer;">
+							<span class="badge pull-left"> ${Maara} </span>
+							&nbsp;
+							${Title}
+						</h4>
+					</div>
+					<div>
+						<p id="lista${Id}" class="panel-collapse collapse list-group-item-text" data-parent='#accordion'>
+							${Description} &nbsp; ${Date}
+						</p>
+					</div>
+				</li>
+			</script>
+
+<!--			<nav>
+				<ul class="pagination">
+				</ul>
+			</nav>-->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel-body">
+						<ul id="ulist" class="list-group">
+						</ul>
+					</div>                
+				</div>
+			</div>
+<!--			<nav>
+				<ul class="pagination">
+				</ul>
+			</nav>
+	
+	</div>
+	
+	<input type="hidden" id="hdnStart" value="1" />
+	<input type="hidden" id="hdnEnd" value="5"/>-->
+ 
+	<footer class="footer">
+		<p>&copy; MJTJP</p>
+	</footer>
+ 
+</body>
+ 
+</html>

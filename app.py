@@ -52,8 +52,8 @@ def userHome():
 	else:	
 		return render_template('error.html', error='Unauthorized Access')
 		
-@app.route('/showAddWish')
-def showAddWish():
+@app.route('/showAddSakko')
+def showAddSakko():
     return render_template('addSakko.html')
 	
 @app.route('/settings')
@@ -65,6 +65,9 @@ def logout():
 	session.pop('user',None)
 	return redirect('/')
 
+@app.route('/feed')
+def feed():
+	return render_template ('feedSakko.html')
 
 @app.route('/video')
 def video():
@@ -279,10 +282,34 @@ def deleteWish():
         conn.close()
 		
 
-	
+@app.route('/getAllWishes')
+def getAllWishes():
+	try:
+		if session.get('user'):
+
+			conn = mysql.connect()
+			cursor = conn.cursor()
+			cursor.callproc('sp_GetAllSakko')
+			result = cursor.fetchall()
+
+			wishes_dict = []
+			for wish in result:
+				wish_dict = {
+					'Id': wish[0],
+					'Title': wish[1],
+					'Description': wish[3],
+					'Maara': wish[2],
+					'Date': wish[5]}
+				wishes_dict.append(wish_dict)
+			
+			return json.dumps(wishes_dict)
+		else:
+			return render_template('error.html', error = 'Unauthorized Access')
+	except Exception as e:
+		return render_template('error.html', error = str(e))
 
 
-@app.route('/getUser',)
+@app.route('/getUser', methods=['POST'])
 def getUser():
 	try:
 		if session.get('user'):
@@ -304,19 +331,19 @@ def getUser():
 					
 			return json.dumps(users_dict)
 		else:
-			return render_template('error.html', error = 'Unauthorized AccessAA')
+			return render_template('error.html', error = 'Unauthorized Access')
 	except Exception as e:
 		return json.dumps(str(e)) #render_template('error.html', error = str(e))
 
 @app.route('/getUserById',methods=['POST'])
 def getUserById():
 	try:
-		if session.get('user'): 
+		if session.get('user'):
 			_user = session.get('user')
 
-			conn = mysql.connect()
-			cursor = conn.cursor()
-			cursor.callproc('sp_GetUserById',(_user))
+			con = mysql.connect()
+			cursor = con.cursor()
+			cursor.callproc('sp_GetUserByUser',(_user,))
 			users = cursor.fetchall()
             
 			users_dict = []
@@ -327,34 +354,30 @@ def getUserById():
 					'Username': user[2],
 					'Email': user[3]}
 				users_dict.append(user_dict)
-					
+			
+			
 			return json.dumps(users_dict)
-#            result = cursor.fetchall()
-# 
-#            user = []
-#            user.append({'Id':result[0][0],'Name':result[0][1],'Username':result[0][2],'Email':result[0][3]})
-# 
-#            return json.dumps(user)"""
 		else:
 			return render_template('error.html', error = 'Unauthorized Access')
 	except Exception as e:
-		return render_template('error.html',error = str(e))
+		return json.dumps(str(e)) #render_template('error.html', error = str(e))
 
 		
-"""@app.route('/updateUser', methods=['POST'])
+@app.route('/updateUser', methods=['POST'])
 def updateUser():
 	try:
 		if session.get('user'):
 			_user = session.get('user')
+			
 			_username = request.form['username']
 			_name = request.form['name']
 			_email = request.form['email']
-			_wish_id = request.form['id']
+			_user_id = request.form['id']
 
 
 			conn = mysql.connect()
 			cursor = conn.cursor()
-			cursor.callproc('sp_updateUser',(_name,_username,_email,_wish_id,_user))
+			cursor.callproc('sp_updateUser',(_username,_name,_email,_user_id))
 			data = cursor.fetchall()
 
 			if len(data) is 0:
@@ -363,14 +386,36 @@ def updateUser():
 			else:
 				return json.dumps({'status':'ERROR'})
 	except Exception as e:
-		return json.dumps({'status':'Unauthorized access'})
+		return json.dumps({'status':'Unauthorized accessA'})
 	finally:
 		cursor.close()
 		conn.close()
-		"""
 		
-#!/usr/bin/python
-
+@app.route('/deleteUser',methods=['POST'])
+def deleteUser():
+    try:
+        if session.get('user'):
+            _id = request.form['id']
+            _user = session.get('user')
+ 
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            cursor.callproc('sp_deleteUser',(_user))
+            result = cursor.fetchall()
+ 
+            if len(result) is 0:
+                conn.commit()
+                return json.dumps({'status':'OK'})
+            else:
+                return json.dumps({'status':'An Error occured'})
+        else:
+            return render_template('error.html',error = 'Unauthorized Access')
+    except Exception as e:
+        return json.dumps({'status':str(e)})
+    finally:
+        cursor.close()
+        conn.close()
+		
 
 
 @app.route('/youtube_search', methods=['POST'])

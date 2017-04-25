@@ -4,7 +4,7 @@
 <head>
     <title>MJTJP SakkoApp</title>
  
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     <link href="../static/css/signup.css" rel="stylesheet">
@@ -28,6 +28,7 @@
 					success: function(res) {
 						$('#editModal').modal('hide');
 							GetUsers();
+							
 					},
 					error: function(error) {
 						console.log(error);
@@ -42,10 +43,13 @@
     function GetUsers(){
         $.ajax({
             url: '/getUser',
-            type: 'GET',
+            type: 'POST',
             success: function(res) {
-               console.log(res)
-				var wishObj = JSON.parse(res);
+ 
+				var userObj = JSON.parse(res);
+				
+				$('#ulist').empty();
+				$('#listTemplate').tmpl(userObj).appendTo('#ulist');
 
             },
             error: function(error) {
@@ -54,6 +58,32 @@
         });
     }
 
+	function ConfirmDelete(elem){
+		localStorage.setItem('deleteId',$(elem).attr('data-id'));
+		$('#deleteModal').modal();
+	}
+	
+	function Delete(){
+		$.ajax({
+			url:'/deleteUser',
+			data:{id:localStorage.getItem('deleteId')},
+			type:'POST',
+			success:function(res){
+				var result = JSON.parse(res);
+				if(result.status == 'OK'){
+					$('#deleteModal').modal('hide');
+					getUsers();
+				}
+				else{
+					alert(result.status);
+				}
+			},
+			error:function(error){
+				console.log(error);
+			}
+		});
+	}
+	
 	function Edit(elm){
 		localStorage.setItem('editId',$(elm).attr('data-id'));
 		$.ajax({
@@ -62,12 +92,11 @@
 				id:$(elm).attr('data-id')},
 			type: 'POST',
 			success: function(res) {
-				console.log(res);
 				var data = JSON.parse(res);
-				$('editName').val(data[0]['Name']);
-				$('editUsername').val(data[0]['Username']);
-				$('editEmail').val(data[0]['Email']);
-				$('editModal').modal();
+				$('#editName').val(data[0]['Name']);
+				$('#editUsername').val(data[0]['Username']);
+				$('#editEmail').val(data[0]['Email']);
+				$('#editModal').modal();
 			},
 			error: function(error) {
 				console.log(error);
@@ -98,9 +127,15 @@
         <div class="header">
             <nav>
                 <ul class="nav nav-pills pull-right">
-					<li role="presentation"><a href="/userHome">Sakkofeedi</a>
+					<li role="presentation" class="active" class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="/feed">Sakkofeedi
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/feed">Sakkofeedi</a></li>
+						<li><a href="/userHome">Omat sakot</a></li>
+					</ul>
                     </li>
-                    <li role="presentation"><a href="/showAddWish">Lisää sakko</a>
+                    <li role="presentation"><a href="/showAddSakko">Lisää sakko</a>
 					</li>
 					<li role="presentation" class="active"><a href="/settings">Asetukset</a>
                     </li>
@@ -112,11 +147,43 @@
         </div>
     </div>
 
-	<div 
-		<div class="action-buttons">
-			<a data-id=${Id} onclick="Edit(this)"data-toggle="modal" data-target="#editModal" style="cursor: pointer;"><span role="button"><span class="glyphicon glyphicon-pencil"</span></span></a>
+			<script id="listTemplate" type="text/x-jQuery-tmpl">
+				
+					<p class="action-buttons">
+						<a data-id=${Id} onclick="Edit(this)" data-toggle="modal" data-target="#editModal" style="cursor: pointer;"><button class="btn btn-primary" type="submit">
+							${Username}, muokkaa käyttäjätietojasi 
+						</button></a>
+					</p>
+				<!--	<p class="action-buttons">
+						<a data-id=${Id} onclick="Edit(this)" data-toggle="modal" data-target="#editModal" style="cursor: pointer;"><button class="btn btn-primary" type="submit">
+							${Username}, muokkaa kuukausituloasi
+						</button></a>
+					</p> -->
+					
+			</script>
+
+	
+	
+	
+	<div class="container">
+		<div class="jumbotron">
+			
+				<div class="row">
+					<div class="col-md-12">
+						<div class="panel-body">
+							<ul id="ulist" class="list-group"> 
+							</ul>
+						</div>
+					</div>
+				</div>
+		
+
 		</div>
- 
+	</div>
+	
+	
+	
+	
 	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
