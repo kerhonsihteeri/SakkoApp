@@ -5,13 +5,13 @@
     <title>MJTJP SakkoApp</title>
  
  
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.3.6/css/font-awesome.min.css">
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     <link href="../static/css/signup.css" rel="stylesheet">
 	<script src="../static/js/jquery-1.11.2.js"></script>	
 	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
  
  
 </head>
@@ -52,6 +52,7 @@
 						<label class="col-md-4 control-label" id="sel1">Sakon saaja</label>
 						<div class="col-md-4 accordion">
 							<select class="col-md-4 form-control" id="sel1" name="inputJasen">
+								<option selected disabled class="text-hide">Valitse saaja</option>
 								<option>Haizee</option>
 								<option>kalja3000</option>
 								<option>Karlin</option>
@@ -91,7 +92,7 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="txtPost">Sakon määrä</label>
                         <div class="col-md-4">
-                            <input class="form-control" type="number" id="txtMaara" name="inputMaara" min="0" step="1"/>
+                            <input class="form-control" type="number" id="txtMaara" placeholder="1" name="inputMaara" min="0" step="1"/>
                         </div>
                     </div>
   
