@@ -152,12 +152,12 @@ def addWish():
 	try:
 		if session.get('user'):
 			
-			if request.form['inputJäsen'] == 'Joku muu?':
+			if request.form['inputJasen'] == 'Joku muu?':
 				_title = request.form['inputMuu']
-				print("iffi")
+
 			else:
-				_title = request.form['inputJäsen']
-				print("jo")
+				_title = request.form['inputJasen']
+
 			_maara= request.form['inputMaara']
 			_description = request.form['inputDescription']
 			_user = session.get('user')
