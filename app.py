@@ -54,11 +54,18 @@ def userHome():
 		
 @app.route('/showAddSakko')
 def showAddSakko():
-    return render_template('addSakko.html')
+	if session.get('user'):
+		return render_template ('addSakko.html')
+	else:
+		return render_template('error.html', error='Unauthorized Access')
+
 	
 @app.route('/settings')
 def settings():
-	return render_template('settings.html')
+	if session.get('user'):
+		return render_template ('settings.html')
+	else:
+		return render_template('error.html', error='Unauthorized Access')
 
 @app.route('/logout')
 def logout():
