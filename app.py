@@ -122,7 +122,7 @@ def validateLogin():
 		if len(data) > 0:
 			if check_password_hash(str(data[0][4]),_password):
 				session['user'] = data [0][0]
-				return redirect('/userHome')
+				return redirect('/feedSakko')
 			else:
 				return render_template('error.html',error = 'Wrong Username or Password.')
 		else:
