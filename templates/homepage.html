@@ -4,16 +4,18 @@
 <head>
     <title>MJTJP SakkoApp</title>
  
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"></script>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
     <link href="../static/css/signup.css" rel="stylesheet">
 	<script src="../static/js/jquery-1.11.2.js"></script>	
 	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+ 
 
-
-	<script>
+ <script>
 		$(function() {
 			$.ajax({
 				url: '/getAllWishes',
@@ -29,8 +31,8 @@
 			});
 		})
 	</script>
-
-
+	
+	
 	<style>
 	.trash {
 		color: rgb(209, 91, 71);
@@ -44,6 +46,7 @@
 	}
 	</style>
  
+ 
 </head>
  
 <body>
@@ -52,29 +55,33 @@
         <div class="header">
             <nav>
                 <ul class="nav nav-pills pull-right">
-					<li role="presentation" class="active" class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" href="/feed">Sakkofeedi
+					<li role="presentation"  class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="/home">Sakkosivu
 					<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="/home">Sakkosivu</a></li>
-						<li class="active"><a href="/feed">Sakkofeedi</a></li>
+						<li class="active"><a href="/home">Sakkosivu</a></li>
+						<li><a href="/feed">Sakkofeedi</a></li>
 						<li><a href="/userHome">Omat sakot</a></li>
 					</ul>
                     </li>
-                    <li role="presentation"><a href="/showAddSakko">Lisää sakko</a>
-					</li>
+					<li role="presentation"><a href="#">Lisää sakko</a>
+                    </li>
 					<li role="presentation"><a href="/settings">Asetukset</a>
                     </li>
-					<li role="presentation"><a href="/logout">Poistu</a>
+                    <li role="presentation"><a href="/logout">Poistu</a>
                     </li>
                 </ul>
             </nav>
             <h3 class="text-muted">SakkoApp</h3>
         </div>
 
-		<h2> Sakkofeedi </h2>
-
-			
+		<div class="col-md-12 col-xs-12 center">
+			<h3>Sakkokassa yhteensä: xxx</h3>
+		</div>
+  
+		<div class="col-md-4 col-xs-12">
+			<h3>Uusimmat sakot</h3>
+		
 			<script id="listTemplate" type="text/x-jQuery-tmpl">
 				<li class="list-group-item">
 					<div class="checkbox" id="accordion">
@@ -86,40 +93,41 @@
 					</div>
 					<div>
 						<p id="lista${Id}" class="panel-collapse collapse list-group-item-text" data-parent='#accordion'>
-							${Description} &nbsp; ${Date}
+							${Description} <!--&nbsp; ${Date} -->
 						</p>
 					</div>
 				</li>
 			</script>
-
-<!--			<nav>
-				<ul class="pagination">
-				</ul>
-			</nav>-->
+			
 			<div class="row">
-				<div class="col-md-12">
-					<div class="panel-body">
-						<ul id="ulist" class="list-group">
-						</ul>
-					</div>                
+				<div class="panel-body">
+					<ul id="ulist" class="list-group">
+					</ul>
 				</div>
 			</div>
-<!--			<nav>
-				<ul class="pagination">
-				</ul>
-			</nav> -->
 	
-	</div> <!--
-	
-	<input type="hidden" id="hdnStart" value="1" />
-	<input type="hidden" id="hdnEnd" value="5"/>-->
- 
+		</div>
+    
+		<div class="col-md-4 col-xs-12">
+			<h3>Top lista</h3>
+		</div>
+		
+		<div class="col-md-4 col-xs-12">
+			<h3>Omat sakot</h3>
+		</div>
+		
+		<div class="col-md-12 col-xs-12">
+			<h4>Lisää tilastoja tulossa..</h4>
+		</div>
+		
+		
 	</div>
 	<div class="container">
         <footer class="footer">
             <p>&copy; MJTJP</p>
         </footer>
 	</div>
+  
 </body>
  
 </html>
