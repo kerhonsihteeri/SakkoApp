@@ -9,10 +9,7 @@ app.secret_key = 'why would I tell you my secret key, you asshole?'
 
 
 # MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = 'imsyhm5uqwvmcb1a'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'z3vnrusg30ry8ivz'
-app.config['MYSQL_DATABASE_DB'] = 'cygpdp7hgoack6lg'
-app.config['MYSQL_DATABASE_HOST'] = 'o3iyl77734b9n3tg.cbetxkdyhwsb.us-east-1.rds.amazonaws.com'
+from settings import database
 mysql.init_app(app)
 
 #Default setting
@@ -27,9 +24,7 @@ from oauth2client.tools import argparser
 # tab of
 #   https://cloud.google.com/console
 # Please ensure that you have enabled the YouTube Data API for your project.
-DEVELOPER_KEY = "AIzaSyCGBwf_FniRboagzyQ9dYhJ78ytyEm3tm8"
-YOUTUBE_API_SERVICE_NAME = "youtube"
-YOUTUBE_API_VERSION = "v3"
+from settings import tubekey
 
 @app.route("/")
 def main():
